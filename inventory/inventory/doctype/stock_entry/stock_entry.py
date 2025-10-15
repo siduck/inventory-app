@@ -3,6 +3,22 @@ from frappe.model.document import Document
 
 
 class StockEntry(Document):
+	# begin: auto-generated types
+	# This code is auto-generated. Do not modify anything in this block.
+
+	from typing import TYPE_CHECKING
+
+	if TYPE_CHECKING:
+		from frappe.types import DF
+
+		amended_from: DF.Link | None
+		entry_type: DF.Literal["Transfer", "Receipt", "Consume"]
+		from_warehouse: DF.Link | None
+		item: DF.Link
+		qty: DF.Int
+		to_warehouse: DF.Link
+	# end: auto-generated types
+
 	def before_save(self):
 		if self.from_warehouse == self.to_warehouse:
 			frappe.throw("Warehouses cannot be the same")
@@ -20,7 +36,7 @@ class StockEntry(Document):
 			"qty_out": 0 if self.entry_type == "Receipt" else self.qty,
 		}
 
-        # print(Document.get_docname())
+		# print(Document.get_docname())
 
 		# last_doc = frappe.get_last_doc("Stock Entry")
 		# ledger_data["qty_balance"] = last_doc and last_doc.qty_balance or 0

@@ -34,6 +34,7 @@
    "read_only": 1
   },
   {
+   "default": "0",
    "fieldname": "is_group",
    "fieldtype": "Check",
    "label": "Is Group"
@@ -56,7 +57,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-10-13 15:34:07.334895",
+ "modified": "2025-10-15 11:51:42.126292",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Warehouse",
