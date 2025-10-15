@@ -2,6 +2,20 @@ import frappe
 from frappe.model.document import Document
 
 
+def validate_fields(self):
+	if self.from_warehouse == self.to_warehouse:
+		frappe.throw("Warehouses cannot be the same")
+
+	if self.entry_type == "Transfer":
+		if not self.from_warehouse or not self.to_warehouse:
+			frappe.throw("Warehouses are mandatory for Transfer entries")
+
+
+def get_prev_stockqty(self):
+	ledgers = frappe.db.get_list("Stock Ledger", filters={"item": self.item}, pluck="stock_qty")
+	return len(ledgers) > 0 and ledgers[0] or 0
+
+
 class StockEntry(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
@@ -20,12 +34,7 @@ class StockEntry(Document):
 	# end: auto-generated types
 
 	def before_save(self):
-		if self.from_warehouse == self.to_warehouse:
-			frappe.throw("Warehouses cannot be the same")
-
-		if self.entry_type == "Transfer":
-			if not self.from_warehouse or not self.to_warehouse:
-				frappe.throw("Warehouses are mandatory for Transfer entries")
+		validate_fields(self)
 
 		ledger_data = {
 			"doctype": "Stock Ledger",
@@ -36,16 +45,7 @@ class StockEntry(Document):
 			"qty_out": 0 if self.entry_type == "Receipt" else self.qty,
 		}
 
-		# print(Document.get_docname())
-
-		# last_doc = frappe.get_last_doc("Stock Entry")
-		# ledger_data["qty_balance"] = last_doc and last_doc.qty_balance or 0
-		#
-		# if ledger_data["qty_in"] > 0:
-		# 	ledger_data["qty_balance"] += ledger_data["qty_in"]
-		# else:
-		# 	ledger_data["qty_balance"] -= ledger_data["qty_out"]
-
+		ledger_data["stock_qty"] = get_prev_stockqty(self) + (ledger_data["qty_in"] - ledger_data["qty_out"])
 		ledger_doc1 = frappe.get_doc(ledger_data)
 		ledger_doc1.insert()
 
@@ -57,7 +57,6 @@ class StockEntry(Document):
 					"qty_out": 0,
 					"qty_balance": self.qty - 0,
 					"warehouse": self.to_warehouse,
-					"qty_balance": ledger_data.qty_balance + self.qty,
 				}
 			)
 			transfer_ledger.insert()

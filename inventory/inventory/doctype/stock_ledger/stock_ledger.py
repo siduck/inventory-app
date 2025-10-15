@@ -16,9 +16,9 @@ class StockLedger(Document):
 
 		date: DF.Date | None
 		item: DF.Link | None
-		qty_balance: DF.Data | None
 		qty_in: DF.Int
 		qty_out: DF.Int
+		stock_qty: DF.Data | None
 		warehouse: DF.Link | None
 	# end: auto-generated types
 

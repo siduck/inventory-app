@@ -11,7 +11,7 @@
   "warehouse",
   "qty_in",
   "qty_out",
-  "qty_balance"
+  "stock_qty"
  ],
  "fields": [
   {
@@ -46,15 +46,15 @@
    "label": "Qty out"
   },
   {
-   "fieldname": "qty_balance",
+   "fieldname": "stock_qty",
    "fieldtype": "Data",
-   "label": "Qty Balance"
+   "label": "Stock Qty"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-15 11:55:23.614455",
+ "modified": "2025-10-15 13:17:27.055356",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Ledger",
