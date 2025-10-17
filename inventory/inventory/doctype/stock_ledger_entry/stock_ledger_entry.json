@@ -1,17 +1,17 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "SLE.###",
  "creation": "2025-10-13 15:39:07.001659",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "section_break_pznh",
   "item",
-  "date",
   "warehouse",
   "qty_in",
   "qty_out",
-  "valuation_rate"
+  "incoming_value"
  ],
  "fields": [
   {
@@ -25,39 +25,35 @@
    "options": "Item"
   },
   {
-   "fieldname": "date",
-   "fieldtype": "Date",
-   "label": "Date"
-  },
-  {
    "fieldname": "warehouse",
    "fieldtype": "Link",
    "label": "Warehouse",
    "options": "Warehouse"
   },
   {
+   "fieldname": "incoming_value",
+   "fieldtype": "Currency",
+   "label": "Incoming Value"
+  },
+  {
    "fieldname": "qty_in",
    "fieldtype": "Int",
-   "label": "Qty in"
+   "label": "Qty In"
   },
   {
    "fieldname": "qty_out",
    "fieldtype": "Int",
-   "label": "Qty out"
-  },
-  {
-   "fieldname": "valuation_rate",
-   "fieldtype": "Data",
-   "label": "Valuation Rate"
+   "label": "Qty Out"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-17 07:58:30.510747",
+ "modified": "2025-10-17 15:44:07.080669",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Ledger Entry",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {
