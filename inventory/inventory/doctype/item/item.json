@@ -1,50 +1,39 @@
 {
  "actions": [],
  "allow_rename": 1,
- "autoname": "field:title",
- "creation": "2025-10-13 11:28:29.464425",
+ "creation": "2025-10-17 07:33:43.078360",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
-  "section_break_2qod",
+  "section_break_oafk",
   "title",
-  "price",
   "description"
  ],
  "fields": [
   {
-   "fieldname": "section_break_2qod",
+   "fieldname": "section_break_oasdsdfdfk",
    "fieldtype": "Section Break"
   },
   {
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "title",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "fieldname": "price",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "label": "price",
+   "label": "Title",
    "reqd": 1
   },
   {
    "fieldname": "description",
    "fieldtype": "Data",
-   "label": "description"
+   "label": "Description"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-15 12:35:59.498631",
+ "modified": "2025-10-17 07:34:30.214830",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Item",
- "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {

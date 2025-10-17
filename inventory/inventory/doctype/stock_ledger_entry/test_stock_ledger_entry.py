@@ -12,9 +12,9 @@ EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
 
-class IntegrationTestStockLedger(IntegrationTestCase):
+class IntegrationTestStockLedgerEntry(IntegrationTestCase):
 	"""
-	Integration tests for StockLedger.
+	Integration tests for StockLedgerEntry.
 	Use this class for testing interactions between multiple components.
 	"""
 

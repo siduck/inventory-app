@@ -5,7 +5,7 @@
 from frappe.model.document import Document
 
 
-class StockLedger(Document):
+class StockLedgerEntry(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
 
@@ -18,7 +18,7 @@ class StockLedger(Document):
 		item: DF.Link | None
 		qty_in: DF.Int
 		qty_out: DF.Int
-		stock_qty: DF.Data | None
+		valuation_rate: DF.Data | None
 		warehouse: DF.Link | None
 	# end: auto-generated types
 

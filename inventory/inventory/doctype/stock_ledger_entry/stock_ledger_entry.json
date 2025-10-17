@@ -11,7 +11,7 @@
   "warehouse",
   "qty_in",
   "qty_out",
-  "stock_qty"
+  "valuation_rate"
  ],
  "fields": [
   {
@@ -46,18 +46,18 @@
    "label": "Qty out"
   },
   {
-   "fieldname": "stock_qty",
+   "fieldname": "valuation_rate",
    "fieldtype": "Data",
-   "label": "Stock Qty"
+   "label": "Valuation Rate"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-15 13:17:27.055356",
+ "modified": "2025-10-17 07:58:30.510747",
  "modified_by": "Administrator",
  "module": "Inventory",
- "name": "Stock Ledger",
+ "name": "Stock Ledger Entry",
  "owner": "Administrator",
  "permissions": [
   {

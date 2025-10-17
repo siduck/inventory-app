@@ -15,7 +15,6 @@ class Item(Document):
 		from frappe.types import DF
 
 		description: DF.Data | None
-		price: DF.Data
 		title: DF.Data
 	# end: auto-generated types
 
