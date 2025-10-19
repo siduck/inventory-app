@@ -16,8 +16,7 @@ class StockLedgerEntry(Document):
 
 		incoming_value: DF.Currency
 		item: DF.Link | None
-		qty_in: DF.Int
-		qty_out: DF.Int
+		qty_change: DF.Int
 		warehouse: DF.Link | None
 	# end: auto-generated types
 

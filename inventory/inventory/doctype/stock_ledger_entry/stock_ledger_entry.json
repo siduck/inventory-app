@@ -9,8 +9,7 @@
   "section_break_pznh",
   "item",
   "warehouse",
-  "qty_in",
-  "qty_out",
+  "qty_change",
   "incoming_value"
  ],
  "fields": [
@@ -31,25 +30,20 @@
    "options": "Warehouse"
   },
   {
+   "fieldname": "qty_change",
+   "fieldtype": "Int",
+   "label": "Qty Change"
+  },
+  {
    "fieldname": "incoming_value",
    "fieldtype": "Currency",
    "label": "Incoming Value"
-  },
-  {
-   "fieldname": "qty_in",
-   "fieldtype": "Int",
-   "label": "Qty In"
-  },
-  {
-   "fieldname": "qty_out",
-   "fieldtype": "Int",
-   "label": "Qty Out"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-17 15:44:07.080669",
+ "modified": "2025-10-18 16:24:25.911542",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Ledger Entry",

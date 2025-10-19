@@ -39,20 +39,19 @@ class StockEntry(Document):
 			gen_stock_ledger_entry(
 				self.item,
 				self.from_warehouse,
-				qty_out=self.qty,
+				qty_change=-self.qty,
 			)
 
 			gen_stock_ledger_entry(
 				self.item,
 				self.to_warehouse,
-				qty_in=self.qty,
+				qty_change=self.qty,
 			)
 		else:
 			is_receipt = self.entry_type == "Receipt"
 			gen_stock_ledger_entry(
 				self.item,
 				self.to_warehouse,
-				qty_in=(is_receipt and self.qty) or None,
-				qty_out=(not is_receipt and self.qty) or None,
-				incoming_value=(is_receipt and self.qty * self.rate) or None,
+				qty_change=(is_receipt and self.qty) or -self.qty,
+				incoming_value=(is_receipt and self.qty * self.rate) or 0,
 			)
