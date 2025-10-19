@@ -53,15 +53,10 @@ def get_columns() -> list[dict]:
 			"fieldtype": "Int",
 			"width": 80,
 		},
+		{"label": _("Balance Qty"), "fieldname": "balance_qty", "fieldtype": "Int", "width": 130},
 		{
 			"label": _("Incoming Value"),
 			"fieldname": "incoming_value",
-			"fieldtype": "Currency",
-			"width": 130,
-		},
-		{
-			"label": _("Moving Avg Rate"),
-			"fieldname": "moving_avg_rate",
 			"fieldtype": "Currency",
 			"width": 130,
 		},
@@ -71,12 +66,11 @@ def get_columns() -> list[dict]:
 def gen_row(data):
 	previous_rows = frappe.get_list(
 		"Stock Ledger Entry",
-		filters={"item": data.item, "creation": ["<=", data.creation], "incoming_value": ["!=", 0]},
-		fields=["SUM(qty_change) as qty_change", "SUM(incoming_value) as incoming_value"],
+		filters={"item": data.item, "creation": ["<=", data.creation], "warehouse": data.warehouse},
+		fields=["SUM(qty_change) as qty_change"],
 	)
 
 	prev_vals = previous_rows[0]
-	moving_avg_rate = prev_vals["incoming_value"] / (prev_vals["qty_change"])
 	qty_in = (data.qty_change > 0 and data.qty_change) or 0
 	qty_out = (data.qty_change < 0 and abs(data.qty_change)) or 0
 
@@ -86,8 +80,8 @@ def gen_row(data):
 		data.warehouse,
 		qty_in,
 		qty_out,
+		prev_vals["qty_change"],
 		data.incoming_value,
-		moving_avg_rate,
 	]
 
 
