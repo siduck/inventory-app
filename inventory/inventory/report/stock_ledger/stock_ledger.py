@@ -68,6 +68,7 @@ def get_columns() -> list[dict]:
 	]
 
 
+
 def gen_row(data):
 	previous_rows = frappe.get_list(
 		"Stock Ledger Entry",

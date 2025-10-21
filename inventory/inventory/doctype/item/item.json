@@ -1,6 +1,7 @@
 {
  "actions": [],
  "allow_rename": 1,
+ "autoname": "field:title",
  "creation": "2025-10-17 07:33:43.078360",
  "doctype": "DocType",
  "engine": "InnoDB",
@@ -11,29 +12,31 @@
  ],
  "fields": [
   {
-   "fieldname": "section_break_oasdsdfdfk",
-   "fieldtype": "Section Break"
-  },
-  {
    "fieldname": "title",
    "fieldtype": "Data",
    "in_list_view": 1,
    "label": "Title",
-   "reqd": 1
+   "reqd": 1,
+   "unique": 1
   },
   {
    "fieldname": "description",
    "fieldtype": "Data",
    "label": "Description"
+  },
+  {
+   "fieldname": "section_break_oafk",
+   "fieldtype": "Section Break"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-17 07:34:30.214830",
+ "modified": "2025-10-20 19:09:10.182416",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Item",
+ "naming_rule": "Expression (old style)",
  "owner": "Administrator",
  "permissions": [
   {

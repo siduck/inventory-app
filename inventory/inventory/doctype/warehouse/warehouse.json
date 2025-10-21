@@ -50,14 +50,15 @@
    "fieldtype": "Link",
    "ignore_user_permissions": 1,
    "label": "Parent Warehouse",
-   "options": "Warehouse"
+   "options": "Warehouse",
+   "unique": 1
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-10-15 11:51:42.126292",
+ "modified": "2025-10-21 15:01:17.302767",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Warehouse",
