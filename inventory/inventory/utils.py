@@ -28,7 +28,7 @@ def gen_stock_entry(**kargs):
 	doc.qty = kargs["qty"]
 	doc.rate = kargs.get("rate", 0)
 	doc.entry_type = kargs["entry_type"]
-	doc.save()
+	doc.submit()
 
 
 def get_valuation_rate(item, warehouse, **kargs):

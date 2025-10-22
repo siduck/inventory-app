@@ -28,7 +28,7 @@ class StockEntry(Document):
 		to_warehouse: DF.Link | None
 	# end: auto-generated types
 
-	def before_save(self):
+	def before_submit(self):
 		validate_fields(self)
 
 		if self.entry_type == "Transfer":
