@@ -31,7 +31,7 @@ def gen_stock_entry(**kargs):
 	doc.save()
 
 
-def gen_stock_ledger_entry(item, warehouse, **kargs):
+def get_valuation_rate(item, warehouse, **kargs):
 	stock_summary = frappe.get_list(
 		"Stock Ledger Entry",
 		filters={"item": item, "warehouse": warehouse},
@@ -59,15 +59,20 @@ def gen_stock_ledger_entry(item, warehouse, **kargs):
 	else:
 		valuation_rate = total_money_spent / total_stock_qty
 
+	return valuation_rate
+
+
+def gen_stock_ledger_entry(item, warehouse, **kargs):
+	valuation_rate = get_valuation_rate(item, warehouse, **kargs)
+
 	doc = frappe.new_doc("Stock Ledger Entry")
 	doc.item = item
 	doc.warehouse = warehouse
 	doc.qty_change = kargs["qty_change"]
 	doc.value_change = kargs["value_change"]
+	doc.valuation_rate = valuation_rate
 
 	if kargs["entry_type"] != "Receipt":
 		doc.value_change = valuation_rate * kargs["qty_change"]
-
-	doc.valuation_rate = valuation_rate
 
 	doc.insert()
