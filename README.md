@@ -12,6 +12,11 @@ bench get-app $URL_OF_THIS_REPO --branch main
 bench install-app inventory
 ```
 
+- Note: To run the test
+```bash
+bench --site $YOUR_SITE run-tests --doctype 'Stock Entry'
+```
+
 ### Contributing
 
 This app uses `pre-commit` for code formatting and linting. Please [install pre-commit](https://pre-commit.com/#installation) and enable it for this repository:
