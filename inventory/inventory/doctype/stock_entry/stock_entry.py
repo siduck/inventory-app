@@ -9,10 +9,6 @@ def validate_fields(self):
 	if self.from_warehouse == self.to_warehouse:
 		frappe.throw("Warehouses cannot be the same")
 
-	if self.entry_type == "Transfer":
-		if not self.from_warehouse or not self.to_warehouse:
-			frappe.throw("Warehouses are mandatory for Transfer entries")
-
 
 class StockEntry(Document):
 	# begin: auto-generated types
