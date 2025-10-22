@@ -30,13 +30,44 @@ def gen_stock_entry(**kargs):
 	doc.entry_type = kargs["entry_type"]
 	doc.save()
 
+
 def gen_stock_ledger_entry(item, warehouse, **kargs):
-	frappe.get_doc(
-		{
-			"doctype": "Stock Ledger Entry",
-			"item": item,
-			"warehouse": warehouse,
-			"qty_change": kargs["qty_change"],
-			"incoming_value": kargs.get("incoming_value", 0),
-		}
-	).insert()
+	stock_summary = frappe.get_list(
+		"Stock Ledger Entry",
+		filters={"item": item, "warehouse": warehouse},
+		fields=[
+			"SUM(qty_change) as qty_change",
+			"SUM(value_change) as `stock_balance`",
+		],
+	)[0]
+
+	valuation_rate = 0
+
+	total_money_spent = (stock_summary.stock_balance or 0) + kargs["value_change"]
+	total_stock_qty = stock_summary.qty_change or 0
+
+	if kargs["entry_type"] == "Receipt":
+		total_stock_qty += kargs["qty_change"]
+
+	if total_stock_qty == 0:
+		# old valuation rate for transfers
+		valuation_rate = frappe.get_list(
+			"Stock Ledger Entry",
+			filters={"item": item},
+			fields=["SUM(value_change)/SUM(qty_change) as `valuation_rate`"],
+		)[0].valuation_rate
+	else:
+		valuation_rate = total_money_spent / total_stock_qty
+
+	doc = frappe.new_doc("Stock Ledger Entry")
+	doc.item = item
+	doc.warehouse = warehouse
+	doc.qty_change = kargs["qty_change"]
+	doc.value_change = kargs["value_change"]
+
+	if kargs["entry_type"] != "Receipt":
+		doc.value_change = valuation_rate * kargs["qty_change"]
+
+	doc.valuation_rate = valuation_rate
+
+	doc.insert()

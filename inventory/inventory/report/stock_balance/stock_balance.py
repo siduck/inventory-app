@@ -53,10 +53,16 @@ def get_columns() -> list[dict]:
 			"fieldtype": "Int",
 			"width": 80,
 		},
-		{"label": _("Balance Qty"), "fieldname": "balance_qty", "fieldtype": "Int", "width": 130},
 		{
-			"label": _("Incoming Value"),
-			"fieldname": "incoming_value",
+			"label": _("Valuation Rate"),
+			"fieldname": "valuation_rate",
+			"fieldtype": "currency",
+			"width": 150,
+		},
+		{"label": _("Total Qty"), "fieldname": "total_qty", "fieldtype": "Int", "width": 80},
+		{
+			"label": _("Stock Value"),
+			"fieldname": "stock_value",
 			"fieldtype": "Currency",
 			"width": 130,
 		},
@@ -67,7 +73,7 @@ def gen_row(data):
 	previous_rows = frappe.get_list(
 		"Stock Ledger Entry",
 		filters={"item": data.item, "creation": ["<=", data.creation], "warehouse": data.warehouse},
-		fields=["SUM(qty_change) as qty_change"],
+		fields=["SUM(qty_change) as qty_change", "SUM(value_change) as `stock_balance`"],
 	)
 
 	prev_vals = previous_rows[0]
@@ -80,17 +86,14 @@ def gen_row(data):
 		data.warehouse,
 		qty_in,
 		qty_out,
+		data.valuation_rate,
 		prev_vals["qty_change"],
-		data.incoming_value,
+		prev_vals["stock_balance"],
 	]
 
 
 def get_data() -> list[list]:
-	li = frappe.get_list(
-		"Stock Ledger Entry",
-		fields=["name", "item", "warehouse", "qty_change", "incoming_value", "creation"],
-		order_by="date asc",
-	)
+	li = frappe.get_list("Stock Ledger Entry", fields=["*"], order_by="date asc")
 
 	rows = []
 

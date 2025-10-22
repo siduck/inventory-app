@@ -10,7 +10,7 @@
   "item",
   "warehouse",
   "qty_change",
-  "incoming_value"
+  "value_change"
  ],
  "fields": [
   {
@@ -35,15 +35,15 @@
    "label": "Qty Change"
   },
   {
-   "fieldname": "incoming_value",
+   "fieldname": "value_change",
    "fieldtype": "Currency",
-   "label": "Incoming Value"
+   "label": "Value Change"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-18 16:24:25.911542",
+ "modified": "2025-10-22 07:16:07.517130",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Ledger Entry",

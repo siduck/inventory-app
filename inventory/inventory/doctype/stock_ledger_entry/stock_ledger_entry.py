@@ -14,9 +14,9 @@ class StockLedgerEntry(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		incoming_value: DF.Currency
 		item: DF.Link | None
 		qty_change: DF.Int
+		value_change: DF.Currency
 		warehouse: DF.Link | None
 	# end: auto-generated types
 

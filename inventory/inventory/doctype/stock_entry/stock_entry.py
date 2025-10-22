@@ -40,12 +40,16 @@ class StockEntry(Document):
 				self.item,
 				self.from_warehouse,
 				qty_change=-self.qty,
+				value_change=0,
+				entry_type= self.entry_type
 			)
 
 			gen_stock_ledger_entry(
 				self.item,
 				self.to_warehouse,
 				qty_change=self.qty,
+				entry_type= self.entry_type,
+				value_change=0
 			)
 		else:
 			is_receipt = self.entry_type == "Receipt"
@@ -53,5 +57,6 @@ class StockEntry(Document):
 				self.item,
 				self.to_warehouse,
 				qty_change=(is_receipt and self.qty) or -self.qty,
-				incoming_value=(is_receipt and self.qty * self.rate) or 0,
+				value_change=(is_receipt and self.qty * self.rate) or 0,
+				entry_type= self.entry_type
 			)
