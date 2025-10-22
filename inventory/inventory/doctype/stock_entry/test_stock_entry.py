@@ -12,6 +12,44 @@ from inventory.inventory.utils import gen_item, gen_warehouse, gen_stock_entry
 EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
 
+test_data = [
+	{
+		"item": "TV",
+		"warehouse": "Mumbai",
+		"qty_change": 10,
+		"value_change": 1000.0,
+		"valuation_rate": 100,
+	},
+	{
+		"item": "TV",
+		"warehouse": "Mumbai",
+		"qty_change": -5,
+		"value_change": -500.0,
+		"valuation_rate": 100,
+	},
+	{
+		"item": "TV",
+		"warehouse": "Hyd",
+		"qty_change": 5,
+		"value_change": 500.0,
+		"valuation_rate": 100,
+	},
+	{
+		"item": "TV",
+		"warehouse": "Mumbai",
+		"qty_change": 10,
+		"value_change": 2000.0,
+		"valuation_rate": 166.66666666666666,
+	},
+	{
+		"item": "TV",
+		"warehouse": "Mumbai",
+		"qty_change": -3,
+		"value_change": -500.0,
+		"valuation_rate": 166.66666666666666,
+	},
+]
+
 
 class IntegrationTestStockEntry(IntegrationTestCase):
 	"""
@@ -20,24 +58,32 @@ class IntegrationTestStockEntry(IntegrationTestCase):
 	"""
 
 	def setUp(self):
-		gen_item("Galaxy")
-		gen_item("Phone")
+		gen_item("TV")
 
 		gen_warehouse("Mumbai")
 		gen_warehouse("Hyd")
-		gen_stock_entry(item="Galaxy", to_warehouse="Mumbai", qty=10, rate=100, entry_type="Receipt")
-		gen_stock_entry(item="Galaxy", to_warehouse="Mumbai", qty=5, rate=130, entry_type="Receipt")
-		gen_stock_entry(item="Phone", to_warehouse="Mumbai", qty=5, rate=200, entry_type="Receipt")
+
+		gen_stock_entry(item="TV", to_warehouse="Mumbai", qty=10, rate=100, entry_type="Receipt")
+		gen_stock_entry(item="TV", from_warehouse="Mumbai", to_warehouse="Hyd", qty=5, entry_type="Transfer")
+		gen_stock_entry(item="TV", to_warehouse="Mumbai", qty=10, rate=200, entry_type="Receipt")
+		gen_stock_entry(item="TV", from_warehouse="Mumbai", qty=3, entry_type="Consume")
 
 	def test_flow(self):
-		frappe.db.get_list(
+		ledger_entries = frappe.db.get_list(
 			"Stock Ledger Entry",
 			fields=[
-				"name",
 				"item",
-				"creation",
 				"warehouse",
 				"qty_change",
+				"value_change",
+				"valuation_rate",
 			],
 			order_by="creation",
 		)
+
+		for i, data in enumerate(test_data):
+			self.assertEqual(data["item"], ledger_entries[i].item)
+			self.assertEqual(data["warehouse"], ledger_entries[i].warehouse)
+			self.assertEqual(data["qty_change"], ledger_entries[i].qty_change)
+			self.assertEqual(data["value_change"], ledger_entries[i].value_change)
+			self.assertAlmostEqual(data["valuation_rate"], ledger_entries[i].valuation_rate)

@@ -10,7 +10,8 @@
   "item",
   "warehouse",
   "qty_change",
-  "value_change"
+  "value_change",
+  "valuation_rate"
  ],
  "fields": [
   {
@@ -38,12 +39,17 @@
    "fieldname": "value_change",
    "fieldtype": "Currency",
    "label": "Value Change"
+  },
+  {
+   "fieldname": "valuation_rate",
+   "fieldtype": "Currency",
+   "label": "Valuation Rate"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-22 07:16:07.517130",
+ "modified": "2025-10-22 09:33:27.478924",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Ledger Entry",

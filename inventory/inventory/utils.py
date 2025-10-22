@@ -26,7 +26,7 @@ def gen_stock_entry(**kargs):
 		doc.from_warehouse = kargs["from_warehouse"]
 
 	doc.qty = kargs["qty"]
-	doc.rate = kargs["rate"]
+	doc.rate = kargs.get("rate", 0)
 	doc.entry_type = kargs["entry_type"]
 	doc.save()
 

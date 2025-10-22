@@ -50,8 +50,7 @@
    "fieldname": "to_warehouse",
    "fieldtype": "Link",
    "label": "To Warehouse",
-   "options": "Warehouse",
-   "reqd": 1
+   "options": "Warehouse"
   },
   {
    "fieldname": "from_warehouse",
@@ -77,7 +76,7 @@
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-17 07:51:58.665765",
+ "modified": "2025-10-22 08:55:58.499041",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Entry",

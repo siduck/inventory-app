@@ -29,7 +29,7 @@ class StockEntry(Document):
 		item: DF.Link
 		qty: DF.Int
 		rate: DF.Currency
-		to_warehouse: DF.Link
+		to_warehouse: DF.Link | None
 	# end: auto-generated types
 
 	def before_save(self):
@@ -41,22 +41,18 @@ class StockEntry(Document):
 				self.from_warehouse,
 				qty_change=-self.qty,
 				value_change=0,
-				entry_type= self.entry_type
+				entry_type=self.entry_type,
 			)
 
 			gen_stock_ledger_entry(
-				self.item,
-				self.to_warehouse,
-				qty_change=self.qty,
-				entry_type= self.entry_type,
-				value_change=0
+				self.item, self.to_warehouse, qty_change=self.qty, entry_type=self.entry_type, value_change=0
 			)
 		else:
 			is_receipt = self.entry_type == "Receipt"
 			gen_stock_ledger_entry(
 				self.item,
-				self.to_warehouse,
+				(is_receipt and self.to_warehouse) or self.from_warehouse,
 				qty_change=(is_receipt and self.qty) or -self.qty,
 				value_change=(is_receipt and self.qty * self.rate) or 0,
-				entry_type= self.entry_type
+				entry_type=self.entry_type,
 			)
