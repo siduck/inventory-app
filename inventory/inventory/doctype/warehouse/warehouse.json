@@ -59,7 +59,9 @@
   {
    "fieldname": "warehouse_name",
    "fieldtype": "Data",
+   "in_list_view": 1,
    "label": "Warehouse Name",
+   "reqd": 1,
    "unique": 1
   }
  ],
@@ -67,7 +69,7 @@
  "index_web_pages_for_search": 1,
  "is_tree": 1,
  "links": [],
- "modified": "2025-10-24 12:19:17.641554",
+ "modified": "2025-10-24 16:26:55.020916",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Warehouse",
