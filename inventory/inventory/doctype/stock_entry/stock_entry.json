@@ -8,12 +8,10 @@
  "field_order": [
   "section_break_snd4",
   "amended_from",
-  "item",
   "entry_type",
   "from_warehouse",
   "to_warehouse",
-  "qty",
-  "rate"
+  "transactions"
  ],
  "fields": [
   {
@@ -29,14 +27,6 @@
    "print_hide": 1,
    "read_only": 1,
    "search_index": 1
-  },
-  {
-   "fieldname": "item",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Item",
-   "options": "Item",
-   "reqd": 1
   },
   {
    "fieldname": "entry_type",
@@ -64,25 +54,17 @@
    "options": "Warehouse"
   },
   {
-   "fieldname": "qty",
-   "fieldtype": "Int",
-   "in_list_view": 1,
-   "label": "Qty",
-   "reqd": 1
-  },
-  {
-   "depends_on": "eval:doc.entry_type == \"Receipt\";",
-   "fieldname": "rate",
-   "fieldtype": "Currency",
-   "label": "Rate",
-   "mandatory_depends_on": "eval:doc.entry_type == \"Receipt\";"
+   "fieldname": "transactions",
+   "fieldtype": "Table",
+   "label": "Transactions",
+   "options": "Stock Entry Item"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2025-10-22 11:22:04.770540",
+ "modified": "2025-10-24 12:32:55.658520",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Entry",

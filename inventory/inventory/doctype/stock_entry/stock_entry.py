@@ -1,7 +1,5 @@
 import frappe
 from frappe.model.document import Document
-
-
 from inventory.inventory.utils import gen_stock_ledger_entry
 
 
@@ -18,37 +16,41 @@ class StockEntry(Document):
 
 	if TYPE_CHECKING:
 		from frappe.types import DF
+		from inventory.inventory.doctype.stock_entry_item.stock_entry_item import StockEntryItem
 
 		amended_from: DF.Link | None
 		entry_type: DF.Literal["Transfer", "Receipt", "Consume"]
 		from_warehouse: DF.Link | None
-		item: DF.Link
-		qty: DF.Int
-		rate: DF.Currency
 		to_warehouse: DF.Link | None
+		transactions: DF.Table[StockEntryItem]
 	# end: auto-generated types
 
-	def before_submit(self):
-		validate_fields(self)
+	def before_save(self):
+		# validate_fields(self)
 
-		if self.entry_type == "Transfer":
-			gen_stock_ledger_entry(
-				self.item,
-				self.from_warehouse,
-				qty_change=-self.qty,
-				value_change=0,
-				entry_type=self.entry_type,
-			)
+		for transaction in self.transactions:
+			if self.entry_type == "Transfer":
+				gen_stock_ledger_entry(
+					transaction.item,
+					self.from_warehouse,
+					qty_change=-transaction.qty,
+					value_change=0,
+					entry_type=self.entry_type,
+				)
+				gen_stock_ledger_entry(
+					transaction.item,
+					self.to_warehouse,
+					qty_change=transaction.qty,
+					entry_type=self.entry_type,
+					value_change=0,
+				)
+			else:
+				is_receipt = self.entry_type == "Receipt"
 
-			gen_stock_ledger_entry(
-				self.item, self.to_warehouse, qty_change=self.qty, entry_type=self.entry_type, value_change=0
-			)
-		else:
-			is_receipt = self.entry_type == "Receipt"
-			gen_stock_ledger_entry(
-				self.item,
-				(is_receipt and self.to_warehouse) or self.from_warehouse,
-				qty_change=(is_receipt and self.qty) or -self.qty,
-				value_change=(is_receipt and self.qty * self.rate) or 0,
-				entry_type=self.entry_type,
-			)
+				gen_stock_ledger_entry(
+					transaction.item,
+					(is_receipt and self.to_warehouse) or self.from_warehouse,
+					qty_change=(is_receipt and transaction.qty) or -transaction.qty,
+					value_change=(is_receipt and transaction.qty * transaction.rate) or 0,
+					entry_type=self.entry_type,
+				)
