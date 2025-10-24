@@ -24,6 +24,15 @@ class StockEntry(Document):
 		if self.from_warehouse == self.to_warehouse:
 			frappe.throw("Warehouses cannot be the same")
 
+	def clear_unused_fields(self):
+		if self.entry_type == "Receipt":
+			self.from_warehouse = None
+		elif self.entry_type == "Consume":
+			self.to_warehouse = None
+
+	def before_save(self):
+		self.clear_unused_fields()
+
 	def before_submit(self):
 		self.validate_fields()
 
