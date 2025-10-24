@@ -19,6 +19,7 @@ class Warehouse(NestedSet):
 		old_parent: DF.Link | None
 		parent_warehouse: DF.Link | None
 		rgt: DF.Int
+		warehouse_name: DF.Data | None
 	# end: auto-generated types
 
 	pass
