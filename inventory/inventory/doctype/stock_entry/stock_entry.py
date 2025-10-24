@@ -36,6 +36,8 @@ class StockEntry(Document):
 					qty_change=-transaction.qty,
 					value_change=0,
 					entry_type=self.entry_type,
+					voucher_code=self.name,
+					voucher_type=self.entry_type,
 				)
 				gen_stock_ledger_entry(
 					transaction.item,
@@ -43,6 +45,8 @@ class StockEntry(Document):
 					qty_change=transaction.qty,
 					entry_type=self.entry_type,
 					value_change=0,
+					voucher_code=self.name,
+					voucher_type=self.entry_type,
 				)
 			else:
 				is_receipt = self.entry_type == "Receipt"
@@ -53,4 +57,6 @@ class StockEntry(Document):
 					qty_change=(is_receipt and transaction.qty) or -transaction.qty,
 					value_change=(is_receipt and transaction.qty * transaction.rate) or 0,
 					entry_type=self.entry_type,
+					voucher_code=self.name,
+					voucher_type=self.entry_type,
 				)

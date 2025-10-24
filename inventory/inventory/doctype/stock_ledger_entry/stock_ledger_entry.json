@@ -11,7 +11,9 @@
   "warehouse",
   "qty_change",
   "value_change",
-  "valuation_rate"
+  "valuation_rate",
+  "voucher_code",
+  "voucher_type"
  ],
  "fields": [
   {
@@ -44,12 +46,23 @@
    "fieldname": "valuation_rate",
    "fieldtype": "Currency",
    "label": "Valuation Rate"
+  },
+  {
+   "fieldname": "voucher_code",
+   "fieldtype": "Link",
+   "label": "Voucher Code",
+   "options": "Stock Entry"
+  },
+  {
+   "fieldname": "voucher_type",
+   "fieldtype": "Data",
+   "label": "Voucher Type"
   }
  ],
  "grid_page_length": 50,
  "index_web_pages_for_search": 1,
  "links": [],
- "modified": "2025-10-22 09:33:27.478924",
+ "modified": "2025-10-24 14:53:06.361672",
  "modified_by": "Administrator",
  "module": "Inventory",
  "name": "Stock Ledger Entry",

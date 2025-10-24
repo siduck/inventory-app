@@ -71,6 +71,13 @@ def get_columns() -> list[dict]:
 			"fieldtype": "Currency",
 			"width": 150,
 		},
+		{
+			"label": _("Voucher Code"),
+			"fieldname": "voucher_code",
+			"options": "Stock Entry",
+			"fieldtype": "Link",
+			"width": 150,
+		}
 	]
 
 
@@ -89,6 +96,7 @@ def gen_row(data):
 		incoming_value,
 		outgoing_value,
 		data.valuation_rate,
+		data.voucher_code,
 	]
 
 

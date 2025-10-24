@@ -71,6 +71,8 @@ def gen_stock_ledger_entry(item, warehouse, **kargs):
 	doc.qty_change = kargs["qty_change"]
 	doc.value_change = kargs["value_change"]
 	doc.valuation_rate = valuation_rate
+	doc.voucher_code = kargs["voucher_code"]
+	doc.voucher_type = kargs["voucher_type"]
 
 	if kargs["entry_type"] != "Receipt":
 		doc.value_change = valuation_rate * kargs["qty_change"]

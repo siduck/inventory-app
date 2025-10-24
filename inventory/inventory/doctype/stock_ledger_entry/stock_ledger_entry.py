@@ -18,6 +18,8 @@ class StockLedgerEntry(Document):
 		qty_change: DF.Int
 		valuation_rate: DF.Currency
 		value_change: DF.Currency
+		voucher_code: DF.Link | None
+		voucher_type: DF.Data | None
 		warehouse: DF.Link | None
 	# end: auto-generated types
 
