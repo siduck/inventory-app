@@ -96,7 +96,7 @@ def get_data() -> list[list]:
 	li = frappe.get_list(
 		"Stock Ledger Entry",
 		fields=["*"],
-		order_by="date asc",
+		order_by="creation asc",
 	)
 
 	rows = []

@@ -93,7 +93,7 @@ def gen_row(data):
 
 
 def get_data() -> list[list]:
-	li = frappe.get_list("Stock Ledger Entry", fields=["*"], order_by="date asc")
+	li = frappe.get_list("Stock Ledger Entry", fields=["*"], order_by="creation asc")
 
 	rows = []
 
