@@ -24,7 +24,7 @@ class StockEntry(Document):
 		if self.from_warehouse == self.to_warehouse:
 			frappe.throw("Warehouses cannot be the same")
 
-	def before_save(self):
+	def before_submit(self):
 		self.validate_fields()
 
 		for transaction in self.transactions:

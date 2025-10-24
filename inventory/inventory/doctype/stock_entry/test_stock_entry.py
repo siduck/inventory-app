@@ -59,14 +59,44 @@ class IntegrationTestStockEntry(IntegrationTestCase):
 
 	def setUp(self):
 		gen_item("TV")
+		# gen_item("HTC Phone")
 
 		gen_warehouse("Mumbai")
 		gen_warehouse("Hyd")
 
-		gen_stock_entry(item="TV", to_warehouse="Mumbai", qty=10, rate=100, entry_type="Receipt")
-		gen_stock_entry(item="TV", from_warehouse="Mumbai", to_warehouse="Hyd", qty=5, entry_type="Transfer")
-		gen_stock_entry(item="TV", to_warehouse="Mumbai", qty=10, rate=200, entry_type="Receipt")
-		gen_stock_entry(item="TV", from_warehouse="Mumbai", qty=3, entry_type="Consume")
+		gen_stock_entry(
+			to_warehouse="Mumbai",
+			entry_type="Receipt",
+			transactions=[
+				{"item": "TV", "qty": 10, "rate": 100},
+				# {"item": "HTC Phone", "qty": 5, "rate": 400},
+			],
+		)
+
+		gen_stock_entry(
+			from_warehouse="Mumbai",
+			to_warehouse="Hyd",
+			entry_type="Transfer",
+			transactions=[
+				{"item": "TV", "qty": 5},
+			],
+		)
+
+		gen_stock_entry(
+			to_warehouse="Mumbai",
+			entry_type="Receipt",
+			transactions=[
+				{"item": "TV", "qty": 10, "rate": 200},
+			],
+		)
+
+		gen_stock_entry(
+			from_warehouse="Mumbai",
+			entry_type="Consume",
+			transactions=[
+				{"item": "TV", "qty": 3},
+			],
+		)
 
 	def test_flow(self):
 		ledger_entries = frappe.db.get_list(

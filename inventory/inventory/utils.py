@@ -10,14 +10,14 @@ def gen_item(title):
 
 def gen_warehouse(name):
 	doc = frappe.new_doc("Warehouse")
+	doc.warehouse_name = name
 	doc.insert()
-	frappe.rename_doc("Warehouse", doc.name, name)
+	# frappe.rename_doc("Warehouse", doc.name, name)
 	# return doc
 
 
 def gen_stock_entry(**kargs):
 	doc = frappe.new_doc("Stock Entry")
-	doc.item = kargs["item"]
 
 	if kargs.get("to_warehouse"):
 		doc.to_warehouse = kargs["to_warehouse"]
@@ -25,9 +25,19 @@ def gen_stock_entry(**kargs):
 	if kargs.get("from_warehouse"):
 		doc.from_warehouse = kargs["from_warehouse"]
 
-	doc.qty = kargs["qty"]
-	doc.rate = kargs.get("rate", 0)
+	for txn in kargs["transactions"]:
+		doc.append(
+			"transactions",
+			{
+				"item": txn["item"],
+				"qty": txn["qty"],
+				"rate": txn.get("rate"),
+			},
+		)
+
 	doc.entry_type = kargs["entry_type"]
+
+	doc.insert()
 	doc.submit()
 
 
