@@ -3,11 +3,6 @@ from frappe.model.document import Document
 from inventory.inventory.utils import gen_stock_ledger_entry
 
 
-def validate_fields(self):
-	if self.from_warehouse == self.to_warehouse:
-		frappe.throw("Warehouses cannot be the same")
-
-
 class StockEntry(Document):
 	# begin: auto-generated types
 	# This code is auto-generated. Do not modify anything in this block.
@@ -25,8 +20,12 @@ class StockEntry(Document):
 		transactions: DF.Table[StockEntryItem]
 	# end: auto-generated types
 
+	def validate_fields(self):
+		if self.from_warehouse == self.to_warehouse:
+			frappe.throw("Warehouses cannot be the same")
+
 	def before_save(self):
-		# validate_fields(self)
+		self.validate_fields()
 
 		for transaction in self.transactions:
 			if self.entry_type == "Transfer":
