@@ -38,33 +38,28 @@ class StockEntry(Document):
 
 		for transaction in self.transactions:
 			if self.entry_type == "Transfer":
-				gen_stock_ledger_entry(
-					transaction.item,
-					self.from_warehouse,
-					qty_change=-transaction.qty,
-					value_change=0,
-					entry_type=self.entry_type,
-					voucher_code=self.name,
-					voucher_type=self.entry_type,
-				)
-				gen_stock_ledger_entry(
-					transaction.item,
-					self.to_warehouse,
-					qty_change=transaction.qty,
-					entry_type=self.entry_type,
-					value_change=0,
-					voucher_code=self.name,
-					voucher_type=self.entry_type,
-				)
+				transfer_opts = {
+					"item": transaction.item,
+					"warehouse": self.from_warehouse,
+					"qty_change": -transaction.qty,
+					"value_change": 0,
+					"entry_type": self.entry_type,
+					"voucher_code": self.name,
+				}
+
+				gen_stock_ledger_entry(**transfer_opts)
+				transfer_opts["warehouse"] = self.to_warehouse
+				transfer_opts["qty_change"] = transaction.qty
+				gen_stock_ledger_entry(**transfer_opts)
+
 			else:
 				is_receipt = self.entry_type == "Receipt"
 
 				gen_stock_ledger_entry(
-					transaction.item,
-					(is_receipt and self.to_warehouse) or self.from_warehouse,
+					item=transaction.item,
+					warehouse=self.to_warehouse or self.from_warehouse,
 					qty_change=(is_receipt and transaction.qty) or -transaction.qty,
 					value_change=(is_receipt and transaction.qty * transaction.rate) or 0,
 					entry_type=self.entry_type,
 					voucher_code=self.name,
-					voucher_type=self.entry_type,
 				)

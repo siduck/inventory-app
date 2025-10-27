@@ -16,16 +16,16 @@ def gen_warehouse(name):
 	# return doc
 
 
-def gen_stock_entry(**kargs):
+def gen_stock_entry(entry_type, to_warehouse, from_warehouse, transactions):
 	doc = frappe.new_doc("Stock Entry")
 
-	if kargs.get("to_warehouse"):
-		doc.to_warehouse = kargs["to_warehouse"]
+	if to_warehouse:
+		doc.to_warehouse = to_warehouse
 
-	if kargs.get("from_warehouse"):
-		doc.from_warehouse = kargs["from_warehouse"]
+	if from_warehouse:
+		doc.from_warehouse = from_warehouse
 
-	for txn in kargs["transactions"]:
+	for txn in transactions:
 		doc.append(
 			"transactions",
 			{
@@ -35,13 +35,13 @@ def gen_stock_entry(**kargs):
 			},
 		)
 
-	doc.entry_type = kargs["entry_type"]
+	doc.entry_type = entry_type
 
 	doc.insert()
 	doc.submit()
 
 
-def get_valuation_rate(item, warehouse, **kargs):
+def get_valuation_rate(item, warehouse, entry_type, value_change, qty_change):
 	stock_summary = frappe.get_list(
 		"Stock Ledger Entry",
 		filters={"item": item, "warehouse": warehouse},
@@ -53,11 +53,11 @@ def get_valuation_rate(item, warehouse, **kargs):
 
 	valuation_rate = 0
 
-	total_money_spent = (stock_summary.stock_balance or 0) + kargs["value_change"]
+	total_money_spent = (stock_summary.stock_balance or 0) + value_change
 	total_stock_qty = stock_summary.qty_change or 0
 
-	if kargs["entry_type"] == "Receipt":
-		total_stock_qty += kargs["qty_change"]
+	if entry_type == "Receipt":
+		total_stock_qty += qty_change
 
 	if total_stock_qty == 0:
 		# old valuation rate for transfers
@@ -72,19 +72,19 @@ def get_valuation_rate(item, warehouse, **kargs):
 	return valuation_rate
 
 
-def gen_stock_ledger_entry(item, warehouse, **kargs):
-	valuation_rate = get_valuation_rate(item, warehouse, **kargs)
+def gen_stock_ledger_entry(item, warehouse, entry_type, value_change, qty_change, voucher_code):
+	valuation_rate = get_valuation_rate(item, warehouse, entry_type, value_change, qty_change)
 
 	doc = frappe.new_doc("Stock Ledger Entry")
 	doc.item = item
 	doc.warehouse = warehouse
-	doc.qty_change = kargs["qty_change"]
-	doc.value_change = kargs["value_change"]
+	doc.qty_change = qty_change
+	doc.value_change = value_change
 	doc.valuation_rate = valuation_rate
-	doc.voucher_code = kargs["voucher_code"]
-	doc.voucher_type = kargs["voucher_type"]
+	doc.voucher_code = voucher_code
+	doc.voucher_type = entry_type
 
-	if kargs["entry_type"] != "Receipt":
-		doc.value_change = valuation_rate * kargs["qty_change"]
+	if entry_type != "Receipt":
+		doc.value_change = valuation_rate * qty_change
 
 	doc.insert()

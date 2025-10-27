@@ -6,12 +6,11 @@ from frappe.tests import IntegrationTestCase
 
 from inventory.inventory.utils import gen_item, gen_warehouse, gen_stock_entry
 
-# On IntegrationTestCase, the doctype test records and all
-# link-field test record dependencies are recursively loaded
-# Use these module variables to add/remove to/from that list
-EXTRA_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
-IGNORE_TEST_RECORD_DEPENDENCIES = []  # eg. ["User"]
+# Module variable setup for test dependencies
+EXTRA_TEST_RECORD_DEPENDENCIES = []
+IGNORE_TEST_RECORD_DEPENDENCIES = []
 
+# Test data for stock entries
 test_data = [
 	{
 		"item": "TV",
@@ -59,40 +58,41 @@ class IntegrationTestStockEntry(IntegrationTestCase):
 
 	def setUp(self):
 		gen_item("TV")
-		# gen_item("HTC Phone")
-
 		gen_warehouse("Mumbai")
 		gen_warehouse("Hyd")
 
+		# Generate stock entries based on the test data
 		gen_stock_entry(
-			to_warehouse="Mumbai",
 			entry_type="Receipt",
+			to_warehouse="Mumbai",
+			from_warehouse=None,
 			transactions=[
 				{"item": "TV", "qty": 10, "rate": 100},
-				# {"item": "HTC Phone", "qty": 5, "rate": 400},
 			],
 		)
 
 		gen_stock_entry(
+			entry_type="Transfer",
 			from_warehouse="Mumbai",
 			to_warehouse="Hyd",
-			entry_type="Transfer",
 			transactions=[
 				{"item": "TV", "qty": 5},
 			],
 		)
 
 		gen_stock_entry(
-			to_warehouse="Mumbai",
 			entry_type="Receipt",
+			to_warehouse="Mumbai",
+			from_warehouse=None,
 			transactions=[
 				{"item": "TV", "qty": 10, "rate": 200},
 			],
 		)
 
 		gen_stock_entry(
-			from_warehouse="Mumbai",
 			entry_type="Consume",
+			to_warehouse=None,
+			from_warehouse="Mumbai",
 			transactions=[
 				{"item": "TV", "qty": 3},
 			],

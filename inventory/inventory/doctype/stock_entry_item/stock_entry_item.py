@@ -14,7 +14,7 @@ class StockEntryItem(Document):
 	if TYPE_CHECKING:
 		from frappe.types import DF
 
-		item: DF.Link | None
+		item: DF.Link
 		parent: DF.Data
 		parentfield: DF.Data
 		parenttype: DF.Data
