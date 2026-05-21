@@ -1,4 +1,3 @@
-  for(kekw)
 app_name = "inventory"
 app_title = "Inventory"
 app_publisher = "Sidhanth"
