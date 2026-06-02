@@ -1,4 +1,4 @@
-[project
+[project]
 name = "inventory"
 authors = [
     { name = "Sidhanth", email = "siduckog@gmail.com"}
